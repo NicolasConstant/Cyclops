@@ -60,6 +60,9 @@
     </ApplicationDefinition>
     <Compile Include="Tools\SysTrayWrapper.cs" />
     <Compile Include="Tools\SysTray.cs" />
+    <Compile Include="UI\TasksManager.xaml.cs">
+      <DependentUpon>TasksManager.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,6 +75,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\TasksManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -119,6 +126,7 @@
     <EmbeddedResource Include="Icons\warning_8.ico" />
     <EmbeddedResource Include="Icons\warning_9.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

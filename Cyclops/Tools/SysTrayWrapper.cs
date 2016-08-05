@@ -76,10 +76,16 @@ namespace Cyclops.Tools
             #endregion
 
             _trayIcon = new SysTray("Cyclops", neutralIcon, contextMenu);
-            _trayIcon.OnLeftClick += LeftCLickOnTrayIconOccured;
+            _trayIcon.OnLeftClick += OnLeftClick;
 
             _trayIcon.SetWarningAnimationClip(warningIconList.ToArray());
             _trayIcon.SetWorkingAnimationClip(workingIconList.ToArray());
+        }
+        #endregion
+
+        private void OnLeftClick()
+        {
+            LeftCLickOnTrayIconOccured?.Invoke();
         }
 
         private void StopWorkingAnimation(object sender, EventArgs e)
@@ -101,7 +107,6 @@ namespace Cyclops.Tools
         {
             StartWarningAnimation();
         }
-        #endregion
 
         public void StartWarningAnimation()
         {
