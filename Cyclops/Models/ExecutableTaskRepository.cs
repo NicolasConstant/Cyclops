@@ -16,12 +16,12 @@ namespace Cyclops.Models
 
         public IEnumerable<ExecutableTask> GetAllExecutableTasks()
         {
-            return new []
-            {
-                new ExecutableTask("Test1", @"c:\test1.exe"),
-                new ExecutableTask("Test2", @"c:\test2.exe"),
-                new ExecutableTask("Test3", @"c:\test3.exe")
-            };
+            var list = new List<ExecutableTask>();
+
+            for (var i = 0; i < 25; i++)
+                list.Add(new ExecutableTask($"Test{i}", $@"c:\test{i}.exe"));
+
+            return list;
         }
 
         public void AddNewExecutableTask(ExecutableTask newTask)

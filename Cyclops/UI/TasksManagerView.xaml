@@ -7,21 +7,70 @@
         xmlns:models="clr-namespace:Cyclops.Models"
         mc:Ignorable="d"
         ResizeMode="NoResize" WindowStyle="None" Title="TasksManager" Height="350" Width="250">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/Icons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <ListBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding TaskList}" Background="WhiteSmoke" Margin="0">
+
+        <Grid Background="SteelBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <Label Foreground="AliceBlue" FontWeight="Bold" FontSize="9" Margin="5, 3, 5, 5" Padding="0">CYCLOPS</Label>
+            <Rectangle Grid.Column="1" Grid.Row="0" Width="12" Height="12" HorizontalAlignment="Center" Fill="AliceBlue">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource appbar_add}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Grid>
+
+        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding TaskList}" Background="WhiteSmoke" Margin="0">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type models:ExecutableTask}">
-                    <Label Content="{Binding Name}" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+
+                        <Label Grid.Row="0" Grid.Column="0" Content="{Binding Name}" Width="auto" />
+
+                        <Rectangle Grid.Row="0" Grid.Column="1" Fill="SteelBlue" Width="16" Height="12" Margin="3" HorizontalAlignment="Center">
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Visual="{StaticResource appbar_check}" Stretch="Fill" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+
+
+                        <!--<Rectangle Width="15" Margin="3" HorizontalAlignment="Right">
+                            <Rectangle.Fill>
+                                <VisualBrush Visual="{StaticResource appbar_checkmark}" />
+                            </Rectangle.Fill>
+                        </Rectangle>-->
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+
     </Grid>
 </Window>
