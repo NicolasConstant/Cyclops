@@ -17,10 +17,11 @@ namespace Cyclops.UI
     /// <summary>
     /// Interaction logic for TasksManager.xaml
     /// </summary>
-    public partial class TasksManager : Window
+    public partial class TasksManagerView : Window
     {
-        public TasksManager()
+        public TasksManagerView(TasksManagerViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
         }
     }

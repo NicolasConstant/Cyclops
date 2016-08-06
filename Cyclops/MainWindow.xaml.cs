@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Cyclops.Models;
 using Cyclops.Tools;
 using Cyclops.UI;
 
@@ -25,8 +26,8 @@ namespace Cyclops
     public partial class MainWindow : Window
     {
         private readonly SysTrayWrapper _sysTrayWrapper;
-        private TasksManager _tasksManagerWindow;
-        private readonly object _tasksManagerLaunchingLock = new object();
+        private TasksManagerView _tasksManagerWindow;
+        private readonly TasksManagerViewModel _viewModel;
 
         public MainWindow()
         {
@@ -42,6 +43,8 @@ namespace Cyclops
             Closing += OnClosing;
             #endregion
 
+            _viewModel = new TasksManagerViewModel(new ExecutableTaskRepository());
+
             _sysTrayWrapper = new SysTrayWrapper();
             _sysTrayWrapper.LeftCLickOnTrayIconOccured += LeftClickOnTray;
         }
@@ -49,33 +52,31 @@ namespace Cyclops
 
         private void LeftClickOnTray()
         {
-            lock (_tasksManagerLaunchingLock)
+            if (_tasksManagerWindow == null)
             {
-                if (_tasksManagerWindow == null)
-                {
-                    _tasksManagerWindow = new TasksManager();
+                _tasksManagerWindow = new TasksManagerView(_viewModel);
 
-                    var point = System.Windows.Forms.Cursor.Position;
-                    _tasksManagerWindow.Left = point.X - _tasksManagerWindow.Width / 2;
-                    _tasksManagerWindow.Top = point.Y - _tasksManagerWindow.Height;
+                var point = System.Windows.Forms.Cursor.Position;
+                _tasksManagerWindow.Left = point.X - _tasksManagerWindow.Width / 2;
+                _tasksManagerWindow.Top = point.Y - _tasksManagerWindow.Height;
 
-                    _tasksManagerWindow.Topmost = true;
-                    _tasksManagerWindow.ShowInTaskbar = false;
-                    _tasksManagerWindow.Show();
-                    _tasksManagerWindow.Activate();
-
-                    _tasksManagerWindow.Deactivated += Unfocused;
-                }
+                _tasksManagerWindow.Topmost = true;
+                _tasksManagerWindow.ShowInTaskbar = false;
+                _tasksManagerWindow.Show();
+                _tasksManagerWindow.Activate();
+                
+                _tasksManagerWindow.Deactivated += Unfocused;
             }
         }
 
         private void Unfocused(object sender, EventArgs e)
         {
+            Thread.Sleep(200); //Make sure unfocused event is processed after left click event //TODO change behavior of SysTrayWrapper
             _tasksManagerWindow.Deactivated -= Unfocused;
             _tasksManagerWindow.Close();
             _tasksManagerWindow = null;
         }
-        
+
         private void OnClosing(object sender, CancelEventArgs e)
         {
             _sysTrayWrapper.LeftCLickOnTrayIconOccured -= LeftClickOnTray;
