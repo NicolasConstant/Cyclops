@@ -11,9 +11,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <!--<Border BorderBrush="WhiteSmoke" BorderThickness="1">-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -31,13 +33,17 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
+
             <Label Foreground="AliceBlue" FontWeight="Bold" FontSize="9" Margin="5, 3, 5, 5" Padding="0">CYCLOPS</Label>
-            <Rectangle Grid.Column="1" Grid.Row="0" Width="12" Height="12" HorizontalAlignment="Center" Fill="AliceBlue">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Visual="{StaticResource appbar_add}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
+            <Button Grid.Column="1" Grid.Row="0"   Width="20" Height="20" Padding="0" Margin="0" Background="SteelBlue" Foreground="WhiteSmoke">
+                <Rectangle Width="12" Height="12" Margin="0" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+
+
         </Grid>
 
         <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding TaskList}" Background="WhiteSmoke" Margin="0">
@@ -60,17 +66,11 @@
                                 <VisualBrush Visual="{StaticResource appbar_check}" Stretch="Fill" />
                             </Rectangle.OpacityMask>
                         </Rectangle>
-
-
-                        <!--<Rectangle Width="15" Margin="3" HorizontalAlignment="Right">
-                            <Rectangle.Fill>
-                                <VisualBrush Visual="{StaticResource appbar_checkmark}" />
-                            </Rectangle.Fill>
-                        </Rectangle>-->
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
 
     </Grid>
+    <!--</Border>-->
 </Window>
