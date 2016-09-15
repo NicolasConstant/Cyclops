@@ -71,14 +71,20 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\ExecutableTask.cs" />
+    <Compile Include="Models\ExecutableTaskViewModel.cs" />
     <Compile Include="Models\ExecutableTaskRepository.cs" />
     <Compile Include="Contracts\IExecutableTaskRepository.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Tools\SysTrayWrapper.cs" />
     <Compile Include="Tools\SysTray.cs" />
     <Compile Include="UI\TasksManagerView.xaml.cs">
       <DependentUpon>TasksManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TasksManagerViewModel.cs" />
+    <Compile Include="UI\TaskWindowView.xaml.cs">
+      <DependentUpon>TaskWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TaskWindowViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,6 +106,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\TasksManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TaskWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

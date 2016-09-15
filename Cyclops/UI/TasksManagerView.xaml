@@ -35,7 +35,7 @@
             </Grid.RowDefinitions>
 
             <Label Foreground="AliceBlue" FontWeight="Bold" FontSize="9" Margin="5, 3, 5, 5" Padding="0">CYCLOPS</Label>
-            <Button Grid.Column="1" Grid.Row="0"   Width="20" Height="20" Padding="0" Margin="0" Background="SteelBlue" Foreground="WhiteSmoke">
+            <Button Command="{Binding AddTaskCommand}" Grid.Column="1" Grid.Row="0"   Width="20" Height="20" Padding="0" Margin="0" Background="SteelBlue" Foreground="WhiteSmoke">
                 <Rectangle Width="12" Height="12" Margin="0" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
@@ -46,10 +46,15 @@
 
         </Grid>
 
-        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding TaskList}" Background="WhiteSmoke" Margin="0">
+        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding TaskList}" Background="WhiteSmoke" Margin="0" Padding="0">
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Background" Value="{Binding ListItemColor}" />
+                </Style>
+            </ListBox.Resources>
             <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type models:ExecutableTask}">
-                    <Grid>
+                <DataTemplate DataType="{x:Type models:ExecutableTaskViewModel}">
+                    <Grid Margin="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="30" />
@@ -61,9 +66,11 @@
 
                         <Label Grid.Row="0" Grid.Column="0" Content="{Binding Name}" Width="auto" />
 
-                        <Rectangle Grid.Row="0" Grid.Column="1" Fill="SteelBlue" Width="16" Height="12" Margin="3" HorizontalAlignment="Center">
+                        <Rectangle Grid.Row="0" Grid.Column="1" Fill="{Binding ListItemLogoColor}" Width="16" Height="12" Margin="3" HorizontalAlignment="Center">
+                        <!--<Rectangle Grid.Row="0" Grid.Column="1" Fill="SteelBlue" Width="16" Height="12" Margin="3" HorizontalAlignment="Center">-->
                             <Rectangle.OpacityMask>
-                                <VisualBrush Visual="{StaticResource appbar_check}" Stretch="Fill" />
+                                <VisualBrush Visual="{Binding MyResource}" Stretch="Fill" />
+                                <!--<VisualBrush Visual="{StaticResource appbar_check}" Stretch="Fill" />-->
                             </Rectangle.OpacityMask>
                         </Rectangle>
                     </Grid>

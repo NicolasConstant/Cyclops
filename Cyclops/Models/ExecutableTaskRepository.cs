@@ -7,21 +7,21 @@ namespace Cyclops.Models
 {
     public class ExecutableTaskRepository : IExecutableTaskRepository
     {
+        private readonly List<ExecutableTask> _list = new List<ExecutableTask>();
+
         #region Ctor
         public ExecutableTaskRepository()
         {
-            
+            for (var i = 0; i < 25; i++)
+                _list.Add(new ExecutableTask($"Test{i}", $@"c:\test{i}.exe"));
+
+            _list[3].IsFailed = true;
         }
         #endregion
 
         public IEnumerable<ExecutableTask> GetAllExecutableTasks()
         {
-            var list = new List<ExecutableTask>();
-
-            for (var i = 0; i < 25; i++)
-                list.Add(new ExecutableTask($"Test{i}", $@"c:\test{i}.exe"));
-
-            return list;
+            return _list;
         }
 
         public void AddNewExecutableTask(ExecutableTask newTask)

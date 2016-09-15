@@ -28,6 +28,7 @@ namespace Cyclops
         private readonly SysTrayWrapper _sysTrayWrapper;
         private TasksManagerView _tasksManagerWindow;
         private readonly TasksManagerViewModel _viewModel;
+        private readonly ExecutableTaskRepository _taskRepository;
 
         public MainWindow()
         {
@@ -43,10 +44,14 @@ namespace Cyclops
             Closing += OnClosing;
             #endregion
 
-            _viewModel = new TasksManagerViewModel(new ExecutableTaskRepository());
+
+            _taskRepository = new ExecutableTaskRepository();
+            _viewModel = new TasksManagerViewModel(_taskRepository);
 
             _sysTrayWrapper = new SysTrayWrapper();
             _sysTrayWrapper.LeftCLickOnTrayIconOccured += LeftClickOnTray;
+
+           
         }
 
 
@@ -67,6 +72,19 @@ namespace Cyclops
                 
                 _tasksManagerWindow.Deactivated += Unfocused;
             }
+
+            //DEBUG
+            var task = _taskRepository.GetAllExecutableTasks().ToArray()[3];
+            Task.Run(() =>
+            {
+                for (;;)
+                {
+                    Application.Current.Dispatcher.Invoke(delegate {
+                        task.IsFailed = !task.IsFailed;
+                    });
+                    Thread.Sleep(2000);
+                }
+            });
         }
 
         private void Unfocused(object sender, EventArgs e)

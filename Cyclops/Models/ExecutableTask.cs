@@ -1,19 +1,32 @@
-﻿using Prism.Mvvm;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Cyclops.Annotations;
 
 namespace Cyclops.Models
 {
-    public class ExecutableTask : BindableBase
+    public class ExecutableTask : INotifyPropertyChanged
     {
         private string _name;
         private string _executableFullPath;
         private string _executableArgs;
         private string _executionFolder;
         private bool _isFailed;
+        private string _expectedReturnCode;
 
         #region Ctor
         public ExecutableTask()
         {
             
+        }
+
+        public ExecutableTask(ExecutableTask task)
+        {
+            Name = task.Name;
+            ExecutableFullPathFullPath = task.ExecutableFullPathFullPath;
+            ExecutableArgs = task._executableArgs;
+            ExecutionFolder = task._executionFolder;
+            ExpectedReturnCode = task._expectedReturnCode;
+            IsFailed = task.IsFailed;
         }
 
         public ExecutableTask(string name, string executableFullPath)
@@ -23,34 +36,72 @@ namespace Cyclops.Models
         }
         #endregion
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public string Name
         {
             get { return _name; }
-            set { SetProperty(ref _name, value); }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
         }
 
         public string ExecutableFullPathFullPath
         {
             get { return _executableFullPath; }
-            set { SetProperty(ref _executableFullPath, value); }
+            set
+            {
+                _executableFullPath = value;
+                OnPropertyChanged();
+            }
         }
 
         public string ExecutableArgs
         {
             get { return _executableArgs; }
-            set { SetProperty(ref _executableArgs, value); }
+            set
+            {
+                _executableArgs = value;
+                OnPropertyChanged();
+            }
         }
 
         public string ExecutionFolder
         {
             get { return _executionFolder; }
-            set { SetProperty(ref _executionFolder, value); }
+            set
+            {
+                _executionFolder = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool IsFailed
         {
             get { return _isFailed; }
-            set { SetProperty(ref _isFailed, value); }
+            set
+            {
+                _isFailed = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ExpectedReturnCode
+        {
+            get { return _expectedReturnCode; }
+            set
+            {
+                _expectedReturnCode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
