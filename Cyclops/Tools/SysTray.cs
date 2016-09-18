@@ -12,8 +12,8 @@ namespace Cyclops.Tools
         private readonly NotifyIcon _mNotifyIcon;
         private readonly Font _mFont;
         private readonly Color _mCol = Color.Black;
-        private readonly Timer _workingTimer;
-        private readonly Timer _warningTimer;
+        private readonly System.Timers.Timer _workingTimer;
+        private readonly System.Timers.Timer _warningTimer;
         private readonly Icon _mDefaultIcon;
 
         private Icon[] _workingAnimationIcons;
@@ -39,13 +39,13 @@ namespace Cyclops.Tools
             _mNotifyIcon.ContextMenu = menu;
             _mFont = new Font("Helvetica", 8);
 
-            _workingTimer = new Timer();
+            _workingTimer = new System.Timers.Timer();
             _workingTimer.Interval = 100;
-            _workingTimer.Tick += WorkingTimerTick;
+            _workingTimer.Elapsed += WorkingTimerTick;
 
-            _warningTimer = new Timer();
+            _warningTimer = new System.Timers.Timer();
             _warningTimer.Interval = 100;
-            _warningTimer.Tick += WarningTimerTick;
+            _warningTimer.Elapsed += WarningTimerTick;
         }
         #endregion 
 

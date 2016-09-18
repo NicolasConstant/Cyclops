@@ -7,15 +7,14 @@ namespace Cyclops.Models
 {
     public class ExecutableTaskRepository : IExecutableTaskRepository
     {
+        private readonly IConfigFileHandler _configFileHandler;
         private readonly List<ExecutableTask> _list = new List<ExecutableTask>();
 
         #region Ctor
-        public ExecutableTaskRepository()
+        public ExecutableTaskRepository(IConfigFileHandler configFileHandler)
         {
-            for (var i = 0; i < 25; i++)
-                _list.Add(new ExecutableTask($"Test{i}", $@"c:\test{i}.exe"));
-
-            _list[3].IsFailed = true;
+            _configFileHandler = configFileHandler;
+            _list.AddRange(_configFileHandler.GetTasks());
         }
         #endregion
 
@@ -26,7 +25,11 @@ namespace Cyclops.Models
 
         public void AddNewExecutableTask(ExecutableTask newTask)
         {
-            throw new NotImplementedException();
+            //Add to repository list
+            _list.Add(newTask);
+
+            //Serialize
+            _configFileHandler.SaveTasks(_list);
         }
     }
 }

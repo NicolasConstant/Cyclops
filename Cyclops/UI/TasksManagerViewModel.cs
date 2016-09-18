@@ -35,10 +35,17 @@ namespace Cyclops.UI
         private void AddNewTaskExecute()
         {
             //TODO open display box
-            var taskWindowViewModel = new TaskWindowViewModel(new ExecutableTask());
+            var newTask = new ExecutableTask();
+            var taskWindowViewModel = new TaskWindowViewModel(newTask);
             var taskWindow = new TaskWindowView(taskWindowViewModel);
-            taskWindow.Show();
-            taskWindow.Focus();
+            taskWindow.Topmost = true;
+            taskWindow.ShowDialog();
+
+            if (taskWindowViewModel.IsModificationValidated)
+            {
+                _repository.AddNewExecutableTask(newTask);
+                _taskList.Add(new ExecutableTaskViewModel(newTask));
+            }
         }
     }
 }

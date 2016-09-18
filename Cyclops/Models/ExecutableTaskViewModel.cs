@@ -86,15 +86,15 @@ namespace Cyclops.Models
                 {
                     ListItemColor = "Crimson";
                     ListItemLogoColor = "WhiteSmoke";
-                    MyIcon = "appbar_warning_circle";
-                    MyResource = (Visual)_oIconResource[MyIcon];
+                    //MyIcon = "appbar_warning_circle";
+                    //MyResource = (Visual)_oIconResource[MyIcon];
                 }
                 else
                 {
                     ListItemColor = "WhiteSmoke";
                     ListItemLogoColor = "SteelBlue";
-                    MyIcon = "appbar_check";
-                    MyResource = (Visual)_oIconResource[MyIcon];
+                    //MyIcon = "appbar_check";
+                    //MyResource = (Visual)_oIconResource[MyIcon];
                 }
             }
         }

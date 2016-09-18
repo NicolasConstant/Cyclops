@@ -11,7 +11,7 @@ namespace Cyclops.Models
         private string _executableArgs;
         private string _executionFolder;
         private bool _isFailed;
-        private string _expectedReturnCode;
+        private int _expectedReturnCode;
 
         #region Ctor
         public ExecutableTask()
@@ -22,7 +22,7 @@ namespace Cyclops.Models
         public ExecutableTask(ExecutableTask task)
         {
             Name = task.Name;
-            ExecutableFullPathFullPath = task.ExecutableFullPathFullPath;
+            ExecutableFullPath = task.ExecutableFullPath;
             ExecutableArgs = task._executableArgs;
             ExecutionFolder = task._executionFolder;
             ExpectedReturnCode = task._expectedReturnCode;
@@ -32,7 +32,7 @@ namespace Cyclops.Models
         public ExecutableTask(string name, string executableFullPath)
         {
             Name = name;
-            ExecutableFullPathFullPath = executableFullPath;
+            ExecutableFullPath = executableFullPath;
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace Cyclops.Models
             }
         }
 
-        public string ExecutableFullPathFullPath
+        public string ExecutableFullPath
         {
             get { return _executableFullPath; }
             set
@@ -88,7 +88,7 @@ namespace Cyclops.Models
             }
         }
 
-        public string ExpectedReturnCode
+        public int ExpectedReturnCode
         {
             get { return _expectedReturnCode; }
             set
