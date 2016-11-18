@@ -31,20 +31,9 @@ namespace Cyclops.Models
             IsFailed = _model.IsFailed;
             Name = _model.Name;
         }
-        
-        //public ExecutableTaskViewModel()
-        //{
-        //    _oIconResource = new ResourceDictionary() { Source = new Uri(@"Resources\Icons.xaml", UriKind.Relative) };
-        //    IsFailed = false;
-        //}
-        //public ExecutableTaskViewModel(string name, string executableFullPath)
-        //{
-        //    _oIconResource = new ResourceDictionary() { Source = new Uri(@"Resources\Icons.xaml", UriKind.Relative) };
-        //    IsFailed = false;
-        //    Name = name;
-        //    ExecutableFullPathFullPath = executableFullPath;
-        //}
         #endregion
+
+        public ExecutableTask Model => _model;
 
         private void ModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {

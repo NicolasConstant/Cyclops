@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icons\cyclops.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
@@ -91,6 +94,8 @@
     <Compile Include="Models\ExecutableTaskRepository.cs" />
     <Compile Include="Contracts\IExecutableTaskRepository.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Tools\AutoStartManager.cs" />
+    <Compile Include="Contracts\IAutoStartManager.cs" />
     <Compile Include="Tools\JsonConfigFileHandler.cs" />
     <Compile Include="Tools\SysTrayWrapper.cs" />
     <Compile Include="Tools\SysTray.cs" />
@@ -149,7 +154,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -186,7 +193,7 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icons\cyclops.ico" />
+    <Resource Include="Icons\cyclops.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

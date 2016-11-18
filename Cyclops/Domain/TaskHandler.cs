@@ -49,7 +49,7 @@ namespace Cyclops.Domain
 #if DEBUG
                 Thread.Sleep(5 * 1000);
 #else
-                Thread.Sleep(15*60*1000);
+                Thread.Sleep(60*60*1000);
 #endif
             }
         }

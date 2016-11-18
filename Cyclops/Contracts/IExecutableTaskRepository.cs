@@ -7,5 +7,6 @@ namespace Cyclops.Contracts
     {
         IEnumerable<ExecutableTask> GetAllExecutableTasks();
         void AddNewExecutableTask(ExecutableTask newTask);
+        void SaveModifiedTask(ExecutableTask selectedTask);
     }
 }

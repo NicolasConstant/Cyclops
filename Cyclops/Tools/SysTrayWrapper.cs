@@ -4,18 +4,27 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Cyclops.Contracts;
 
 namespace Cyclops.Tools
 {
     class SysTrayWrapper : IDisposable
     {
+        private readonly IAutoStartManager _autostartManager;
         private readonly SysTray _trayIcon;
 
+        private const string AutoStartOffLabel = "Autostart: OFF";
+        private const string AutoStartOnLabel = "Autostart: ON";
+        private MenuItem _autoStartMenuItem;
+
         public event Action LeftCLickOnTrayIconOccured;
+        public event Action CloseAction;
 
         #region Ctor
-        public SysTrayWrapper()
+        public SysTrayWrapper(IAutoStartManager autostartManager)
         {
+            _autostartManager = autostartManager;
+
             #region Init Common Icon
             Icon neutralIcon;
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Cyclops.Icons.neutral.ico"))
@@ -52,27 +61,50 @@ namespace Cyclops.Tools
             #region Init Context Menu
             var contextMenu = new ContextMenu();
 
-            var stopWorkingMenuItem = new MenuItem();
-            stopWorkingMenuItem.Index = 1;
-            stopWorkingMenuItem.Text = "Stop Working";
-            stopWorkingMenuItem.Click += StopWorkingAnimation;
+            //var stopWorkingMenuItem = new MenuItem
+            //{
+            //    Index = 1,
+            //    Text = "Stop Working"
+            //};
+            //stopWorkingMenuItem.Click += StopWorkingAnimation;
 
-            var startWorkingMenuItem = new MenuItem();
-            startWorkingMenuItem.Index = 0;
-            startWorkingMenuItem.Text = "Start Working";
-            startWorkingMenuItem.Click += StartWorkingAnimation;
+            //var startWorkingMenuItem = new MenuItem
+            //{
+            //    Index = 0,
+            //    Text = "Start Working"
+            //};
+            //startWorkingMenuItem.Click += StartWorkingAnimation;
 
-            var stopWarningMenuItem = new MenuItem();
-            stopWarningMenuItem.Index = 1;
-            stopWarningMenuItem.Text = "Stop Warning";
-            stopWarningMenuItem.Click += StopWarningAnimation;
+            //var stopWarningMenuItem = new MenuItem
+            //{
+            //    Index = 1,
+            //    Text = "Stop Warning"
+            //};
+            //stopWarningMenuItem.Click += StopWarningAnimation;
 
-            var startWarningMenuItem = new MenuItem();
-            startWarningMenuItem.Index = 0;
-            startWarningMenuItem.Text = "Start Warning";
-            startWarningMenuItem.Click += StartWarningAnimation;
+            //var startWarningMenuItem = new MenuItem
+            //{
+            //    Index = 0,
+            //    Text = "Start Warning"
+            //};
+            //startWarningMenuItem.Click += StartWarningAnimation;
 
-            contextMenu.MenuItems.AddRange(new[] { startWarningMenuItem, stopWarningMenuItem, startWorkingMenuItem, stopWorkingMenuItem });
+            _autoStartMenuItem = new MenuItem
+            {
+                Index = 1,
+                Text = _autostartManager.IsAutoStartSet() ? AutoStartOnLabel : AutoStartOffLabel
+            };
+
+            _autoStartMenuItem.Click += AutostartClick;
+
+            var closeAppMenuItem = new MenuItem
+            {
+                Index = 0,
+                Text = "Close"
+            };
+            closeAppMenuItem.Click += CloseAppClick;
+
+            contextMenu.MenuItems.AddRange(new[] { _autoStartMenuItem, closeAppMenuItem });
             #endregion
 
             _trayIcon = new SysTray("Cyclops", neutralIcon, contextMenu);
@@ -83,30 +115,43 @@ namespace Cyclops.Tools
         }
         #endregion
 
+        private void AutostartClick(object sender, EventArgs e)
+        {
+            var autoStartNewStatus = !_autostartManager.IsAutoStartSet();
+
+            _autostartManager.SetAutoStart(autoStartNewStatus);
+            _autoStartMenuItem.Text = autoStartNewStatus ? AutoStartOnLabel : AutoStartOffLabel;
+        }
+
+        private void CloseAppClick(object sender, EventArgs e)
+        {
+            CloseAction?.Invoke();
+        }
+
         private void OnLeftClick()
         {
             LeftCLickOnTrayIconOccured?.Invoke();
         }
 
-        private void StopWorkingAnimation(object sender, EventArgs e)
-        {
-            StopWorkingAnimation();
-        }
+        //private void StopWorkingAnimation(object sender, EventArgs e)
+        //{
+        //    StopWorkingAnimation();
+        //}
 
-        private void StartWorkingAnimation(object sender, EventArgs e)
-        {
-            StartWorkingAnimation();
-        }
+        //private void StartWorkingAnimation(object sender, EventArgs e)
+        //{
+        //    StartWorkingAnimation();
+        //}
 
-        private void StopWarningAnimation(object sender, EventArgs e)
-        {
-            StopWarningAnimation();
-        }
+        //private void StopWarningAnimation(object sender, EventArgs e)
+        //{
+        //    StopWarningAnimation();
+        //}
 
-        private void StartWarningAnimation(object sender, EventArgs e)
-        {
-            StartWarningAnimation();
-        }
+        //private void StartWarningAnimation(object sender, EventArgs e)
+        //{
+        //    StartWarningAnimation();
+        //}
 
         public void StartWarningAnimation()
         {

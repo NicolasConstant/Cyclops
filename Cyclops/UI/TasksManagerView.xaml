@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cyclops.UI"
         xmlns:models="clr-namespace:Cyclops.Models"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         ResizeMode="NoResize" WindowStyle="None" Title="TasksManager" Height="350" Width="250">
     <Window.Resources>
@@ -46,7 +47,7 @@
 
         </Grid>
 
-        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding TaskList}" Background="WhiteSmoke" Margin="0" Padding="0">
+        <ListBox Grid.Column="0" Grid.Row="1" ItemsSource="{Binding TaskList}" SelectedItem="{Binding SelectedTask}" Background="WhiteSmoke" Margin="0" Padding="0">
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Background" Value="{Binding ListItemColor}" />
@@ -76,6 +77,11 @@
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OnDoubleClickCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </ListBox>
 
     </Grid>

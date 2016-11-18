@@ -18,6 +18,7 @@ namespace Cyclops.UI
         {
             _repository = repository;
             AddTaskCommand = new DelegateCommand(AddNewTaskExecute);
+            OnDoubleClickCommand = new DelegateCommand(OnDoubleClickExecute);
 
             foreach (var task in _repository.GetAllExecutableTasks())
                 _taskList.Add(new ExecutableTaskViewModel(task));
@@ -25,12 +26,15 @@ namespace Cyclops.UI
         #endregion
         
         public ICommand AddTaskCommand { get; set; }
+        public ICommand OnDoubleClickCommand { get; set; }
 
         public ObservableCollection<ExecutableTaskViewModel> TaskList
         {
             get { return _taskList; }
             set { SetProperty(ref _taskList, value); }
         }
+
+        public ExecutableTaskViewModel SelectedTask { get; set; }
 
         private void AddNewTaskExecute()
         {
@@ -45,6 +49,24 @@ namespace Cyclops.UI
             {
                 _repository.AddNewExecutableTask(newTask);
                 _taskList.Add(new ExecutableTaskViewModel(newTask));
+            }
+        }
+
+        private void OnDoubleClickExecute()
+        {
+            var selectedTask = SelectedTask.Model.Clone() as ExecutableTask;
+
+            var taskWindowViewModel = new TaskWindowViewModel(selectedTask);
+            var taskWindow = new TaskWindowView(taskWindowViewModel);
+            taskWindow.Topmost = true;
+            taskWindow.ShowDialog();
+
+            if (taskWindowViewModel.IsModificationValidated)
+            {
+                var newViewModel = new ExecutableTaskViewModel(selectedTask);
+                TaskList.Remove(SelectedTask);
+                TaskList.Add(newViewModel);
+                _repository.SaveModifiedTask(selectedTask);
             }
         }
     }

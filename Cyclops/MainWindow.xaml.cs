@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace Cyclops
         private readonly TasksManagerViewModel _viewModel;
         private readonly ExecutableTaskRepository _taskRepository;
         private readonly TaskHandler _taskHandler;
+        private const string AppName = "Cyclops";
 
         public MainWindow()
         {
@@ -54,12 +56,15 @@ namespace Cyclops
             
             _viewModel = new TasksManagerViewModel(_taskRepository);
 
-            _sysTrayWrapper = new SysTrayWrapper();
+            var fullPath = Assembly.GetExecutingAssembly().Location;
+            var autostartManager = new AutoStartManager(AppName, fullPath);
+            _sysTrayWrapper = new SysTrayWrapper(autostartManager);
             _sysTrayWrapper.LeftCLickOnTrayIconOccured += LeftClickOnTray;
+            _sysTrayWrapper.CloseAction += CloseAction;
 
             _taskHandler.StartAnalysing();
         }
-
+        
         private AppWorkingStatusEnum _currentWorkingStatus;
         private TasksGlobalStatusEnum _currentErrorStatus;
 
@@ -101,7 +106,11 @@ namespace Cyclops
                 _sysTrayWrapper.StartWarningAnimation();
             }
         }
-
+        
+        private void CloseAction()
+        {
+            Application.Current.Shutdown();
+        }
 
         private void LeftClickOnTray()
         {

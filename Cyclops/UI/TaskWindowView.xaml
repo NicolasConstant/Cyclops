@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Cyclops.UI"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:TaskWindowViewModel, IsDesignTimeCreatable=True}"
-        Title="Add new Task" MinHeight="210" MaxHeight="210" Height="210" MinWidth="350" Width="400" Closing="Window_Closing" >
+        Title="Add new Task" MinHeight="210" MaxHeight="210" Height="210" MinWidth="350" Width="400" Closing="Window_Closing" Icon="/Cyclops;component/Icons/cyclops.ico" >
     <!-- Icon="../../Icons/neutral.ico" -->
     <Grid>
         <Grid.ColumnDefinitions>

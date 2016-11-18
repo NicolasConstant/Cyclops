@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Cyclops.Annotations;
 
 namespace Cyclops.Models
 {
-    public class ExecutableTask : INotifyPropertyChanged
+    public class ExecutableTask : INotifyPropertyChanged, ICloneable
     {
         private string _name;
         private string _executableFullPath;
@@ -37,6 +38,8 @@ namespace Cyclops.Models
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public int Id { get; set; }
 
         public string Name
         {
@@ -102,6 +105,21 @@ namespace Cyclops.Models
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public object Clone()
+        {
+            var clonedObject = new ExecutableTask()
+            {
+                Id = Id,
+                Name = Name,
+                ExecutableArgs = ExecutableArgs,
+                ExecutableFullPath = ExecutableFullPath,
+                ExecutionFolder = ExecutionFolder,
+                ExpectedReturnCode = ExpectedReturnCode,
+                IsFailed = IsFailed
+            };
+            return clonedObject;
         }
     }
 }
